@@ -19,6 +19,7 @@ const config = {
 
 
 // データ取得先のURLを設定する
+const url = "http://www.drk7.jp/weather/xml/13.xml";
 // XMLパースしてデータを取得する
 // 取得するデータをxpathで指定する
 // 雨降るよちゃんだと時間ごとの降水確率を取得
