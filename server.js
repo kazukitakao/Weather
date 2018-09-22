@@ -53,8 +53,29 @@ function analyzeRSS(rss) {
             type: 'text',
             text: message
         }));
+        return message = JSON.stringify({
+            type: 'text',
+            text: message
+        });
+
     });
 }
+
+// プッシュメッセージサンプル
+const message = {
+  type: 'text',
+  text: 'Hello World!'
+};
+
+client.pushMessage('U1c6bab7aa9b25288eab65bfd8e4011c1', message)
+  .catch((err) => {
+      console.log('error');
+    // error handling
+  });
+
+
+
+
 
 const app = express();
 
