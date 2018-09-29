@@ -1,27 +1,33 @@
 'use strict'
 
 const sqlite = require('sqlite3').verbose();
-const db = new sqlite.Database('userInfo.sqlite');
 
-function insert(){
+function userInsert(userId,timeStamp){
 
+    const db = new sqlite.Database('userInfo.sqlite');
     // SQLを同期的に実行する
     db.serialize( () => {
 
-        db.run('CREATE TABLE IF NOT EXISTS userInfo(userID TEXT,timestamp TEXT)');
+        db.run('CREATE TABLE IF NOT EXISTS userInfo(userId TEXT primary key,timeStamp TEXT)');
     
         const stmt = db.prepare('INSERT INTO userInfo VALUES (?,?)');
-        //stmt.run(['test','20190927']);
+        stmt.run([userId,timeStamp]);
     
         // prepare() で取得したPrepared Statement オブジェクトをクローズする
-        // これをしないとエラー？
         stmt.finalize();
-    
     });
-    db.close(); 
+
+    db.close((err) => {
+        if (err) {
+            console.log(err.message);                
+        }
+    });
+    console.log(userId + 'のデータを' + timeStamp + 'に登録しました');
 }
 
 function select(){
+
+    const db = new sqlite.Database('userInfo.sqlite');
     db.serialize( () => {
         db.each('SELECT * FROM userInfo',(error , row) => {
             if (error) {
@@ -31,13 +37,33 @@ function select(){
             console.log('登録されているID：' + row.userID);
         });
     });
-    db.close();
+    db.close( (err) => {
+        if (err) {
+            console.log(err.message);                
+        }
+    });
 }
 
-//insert();
-select();
+function userDelete(userId){
+
+    const db = new sqlite.Database('userInfo.sqlite');
+    db.serialize( () => {
+        db.run('DELETE FROM userInfo WHERE userId = ?',userId, (err) => {
+            if (err) {
+                console.log(err.message);                
+            }
+        });
+    });
+    db.close( (err) => {
+        if (err) {
+            console.log(err.message);                
+        }
+    });
+    console.log('解除されたID：' + userId);
+}    
 
 module.exports = {
-    insert:insert,
+    userInsert:userInsert,
+    userDelete:userDelete,
     select:select
 }
