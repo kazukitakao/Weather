@@ -1,8 +1,9 @@
 'use strict';
-const http = require('http');
-const router = require('./lib/router');
+//const http = require('http');
+//const router = require('./lib/router');
 const express = require('express');
 const line = require('@line/bot-sdk');
+const dao = require('./db/dao');
 
 const config = {
   channelSecret: 'dda96be6327f93bbbcbd6880821fa397',
@@ -17,13 +18,21 @@ const app = express();
 // ②友人登録された時、DBにIDを登録する処理
 // ③友人解除された時、DBからIDを削除する処理
 app.post('/webhook', line.middleware(config), (req, res) => {
-    console.log(req.body.events);
-    switch (req.body.events.type) {
+
+    let eventType = req.body.events[0].type
+    switch (eventType) {
+      // リプライ
       case 'Message':
         break;
-      case 'Follow':
+      // グループ登録
+      case 'follow':
+        console.log('受け取った登録ID：' + req.body.events[0].source.userId);
+        console.log('受け取った時間：' + req.body.events[0].timestamp);
+        //dao.insert(userId,timeStamp);
         break;
-      case 'Leave':
+      // グループ離脱
+      case 'unfollow':
+
         break;
       default:
         break;
@@ -31,30 +40,32 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 
 
     // 複数人からのリプライがあることを想定してall？
-    Promise
-      .all(req.body.events.map(handleEvent))
-      .then((result) => res.json(result));
+    // Promise
+    //   .all(req.body.events.map(handleEvent))
+    //   .then((result) => res.json(result));
 });
 
-const client = new line.Client(config);
+// const client = new line.Client(config);
 
-function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    return Promise.resolve(null);
-  }else if(event.type){
-}
+// function handleEvent(event) {
+//   if (event.type !== 'message' || event.message.type !== 'text') {
+//     return Promise.resolve(null);
+//   }else if(event.type){
+// }
 
-  return client.replyMessage(event.replyToken, {
-    type: 'text',
-    text: event.message.text //実際に返信の言葉を入れる箇所
-  });
-}
-
-app.listen(PORT);
-console.log(`Server running at ${PORT}`);
+//   return client.replyMessage(event.replyToken, {
+//     type: 'text',
+//     text: event.message.text //実際に返信の言葉を入れる箇所
+//   });
+// }
 
 // ポートを起動サーバの環境変数基準にする
 const port = process.env.PORT || 8000;
-server.listen(port, () => {
-  console.info('Listening on ' + port);
+app.listen(port, () => {
+  console.log(`Server running at ${port}`);  
 });
+
+// const port = process.env.PORT || 8000;
+// server.listen(port, () => {
+//   console.info('Listening on ' + port);
+// });req.
