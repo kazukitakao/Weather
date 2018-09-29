@@ -1,0 +1,5 @@
+# sqlite3のファイルを管理外に設定
+userInfo.sqlite
+
+# モジュールを管理外に設定
+node_modules/
