@@ -5,6 +5,8 @@ const line = require('@line/bot-sdk');
 // XMLパース
 const parseString = require('xml2js').parseString;
 
+const dao = require('./db/dao');
+
 // LINESECRETとTOKEN
 const config = {
     channelSecret: 'dda96be6327f93bbbcbd6880821fa397',
@@ -31,7 +33,6 @@ function getRSS(url){
                     items[0].period.forEach(period => {
                         message += period.$.hour + '時：' + period._ + '% \n'
                     });
-                    console.log('取得完了:' + message);
                 });
                resolve(message);
             }
@@ -46,26 +47,20 @@ getRSS(url).then(function testMessage(result){
 
     console.log('非同期テスト:' + result);
     const message = {
-      type: 'text',
-      text: result
+        type: 'text',
+        text: result
     };
-    client.pushMessage('U1c6bab7aa9b25288eab65bfd8e4011c1', message)
-        .catch((err) => {
-        console.log(err.message);
-    });
+    dao.select().then( (result) => {
 
+        console.log('非同期テスト:' + result);
+
+        result.forEach((item) => {
+            client.pushMessage(item, message)
+                .catch((err) => {
+                    console.log(err.message);
+                });
+        })    
+    });
 }).catch(function onReject(err){
     console.log(err.message);
 });
-
-// プッシュメッセージサンプル
-// const message = {
-//   type: 'text',
-//   text: 'Hello World!'
-// };
-// console.log(message);
-
-// client.pushMessage('U1c6bab7aa9b25288eab65bfd8e4011c1', message)
-//   .catch((err) => {
-//       console.log(err.message);
-// });
