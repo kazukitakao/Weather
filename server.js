@@ -54,12 +54,12 @@ getRSS(url).then(function testMessage(result){
 
         console.log('非同期テスト:' + result);
 
-        result.forEach((item) => {
-            client.pushMessage(item, message)
+        //result.forEach((item) => {
+            client.multicast(result, message)
                 .catch((err) => {
                     console.log(err.message);
                 });
-        })    
+        //})    
     });
 }).catch(function onReject(err){
     console.log(err.message);
