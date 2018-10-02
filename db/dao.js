@@ -1,6 +1,16 @@
 'use strict'
 
+
+// herokuにデプロイするためにpostgresqlに変更
 const sqlite = require('sqlite3').verbose();
+
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize(
+  'postgres://postgres:postgres@localhost/secret_board',
+  {
+    logging: false,
+    operatorsAliases: false 
+  });
 
 function userInsert(userId,timeStamp){
 
