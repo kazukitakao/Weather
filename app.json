@@ -1,6 +1,6 @@
 {
-    "name": "Enquetes",
-    "description": "Enquetes for favorite foods.",
+    "name": "Weather",
+    "description": "天気予報",
     "repository": "https://github.com/kazukitakao/Weather",
     "logo": "",
     "keywords": ["node"],
