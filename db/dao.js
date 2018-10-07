@@ -1,38 +1,18 @@
 'use strict'
 
-
 // herokuにデプロイするためにpostgresqlに変更
-const sqlite = require('sqlite3').verbose();
-
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(
-  'postgres://postgres:postgres@localhost/secret_board',
-  {
-    logging: false,
-    operatorsAliases: false 
-  });
+const Post = require('./post');
 
 function userInsert(userId,timeStamp){
 
-    const db = new sqlite.Database('userInfo.sqlite');
-    // SQLを同期的に実行する
-    db.serialize( () => {
-
-        db.run('CREATE TABLE IF NOT EXISTS userInfo(userId TEXT primary key,timeStamp TEXT)');
-    
-        const stmt = db.prepare('INSERT INTO userInfo VALUES (?,?)');
-        stmt.run([userId,timeStamp]);
-    
-        // prepare() で取得したPrepared Statement オブジェクトをクローズする
-        stmt.finalize();
-    });
-
-    db.close((err) => {
-        if (err) {
-            console.log(err.message);                
-        }
-    });
-    console.log(userId + 'のデータを' + timeStamp + 'に登録しました');
+    Post.create({
+        userId:userId,
+        timeStamp:timeStamp
+    }).then( () => {
+        console.log('DBに登録されました');
+    }).catch((err) => {
+        console.log('DB登録に失敗しました');
+    })
 }
 
 function select(){
@@ -62,20 +42,17 @@ function select(){
 
 function userDelete(userId){
 
-    const db = new sqlite.Database('userInfo.sqlite');
-    db.serialize( () => {
-        db.run('DELETE FROM userInfo WHERE userId = ?',userId, (err) => {
-            if (err) {
-                console.log(err.message);                
-            }
-        });
-    });
-    db.close( (err) => {
-        if (err) {
-            console.log(err.message);                
+    const filter = {
+        where:{
+            userId:userId
         }
-    });
-    console.log('解除されたID：' + userId);
+    }
+
+    Post.destroy(filter).then( () => {
+        console.log('DB削除に成功しました');
+    }).catch((err) => {
+        console.log('DB削除に失敗しました');
+    })
 }    
 
 module.exports = {
