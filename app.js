@@ -40,20 +40,6 @@ app.post('/webhook', line.middleware(config), (req, res) => {
     }
 });
 
-// const client = new line.Client(config);
-
-// function handleEvent(event) {
-//   if (event.type !== 'message' || event.message.type !== 'text') {
-//     return Promise.resolve(null);
-//   }else if(event.type){
-// }
-
-//   return client.replyMessage(event.replyToken, {
-//     type: 'text',
-//     text: event.message.text //実際に返信の言葉を入れる箇所
-//   });
-// }
-
 // ポートを起動サーバの環境変数基準にする
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

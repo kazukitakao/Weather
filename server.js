@@ -16,7 +16,7 @@ const config = {
 const client = new line.Client(config);
 
 function getRSS(url){
-    return new Promise(function(resolve,reject){
+    return new Promise((resolve,reject) => {
         let request = require('request');
         
         request(url, function (err, response, body) {
@@ -43,23 +43,21 @@ function getRSS(url){
 // データ取得先のURLを設定する
 const url = "http://www.drk7.jp/weather/xml/13.xml";
 
-getRSS(url).then(function testMessage(result){
+getRSS(url).then((result) => {
 
-    console.log('非同期テスト:' + result);
+    console.log('RSS情報:' + result);
     const message = {
         type: 'text',
         text: result
     };
-    dao.select().then( (result) => {
+    dao.select().then((result) => {
 
-        console.log('非同期テスト:' + result);
+        console.log('ユーザ一覧:' + result);
 
-        //result.forEach((item) => {
-            client.multicast(result, message)
-                .catch((err) => {
-                    console.log(err.message);
-                });
-        //})    
+        client.multicast(result, message)
+            .catch((err) => {
+                console.log(err.message);
+            });
     });
 }).catch(function onReject(err){
     console.log(err.message);
