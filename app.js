@@ -18,6 +18,7 @@ const app = express();
 app.post('/webhook', line.middleware(config), (req, res) => {
 
     let eventType = req.body.events[0].type
+    console.log('受け取ったイベントタイプ：' + eventType);
     
     switch (eventType) {
       // リプライ
@@ -36,6 +37,7 @@ app.post('/webhook', line.middleware(config), (req, res) => {
         dao.userDelete(req.body.events[0].source.userId,req.body.events[0].timestamp);
         break;
       default:
+        console.log('予期していないリクエストです');
         break;
     }
 });
