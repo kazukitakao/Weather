@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
         operatorsAliases: false
     });
 
-const Post = sequelize.define('Post', {
+const Post = sequelize.define('userInfo', {
     userId: {
         type: Sequelize.STRING,
         primaryKey: true
