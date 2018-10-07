@@ -18,24 +18,16 @@ function userInsert(userId,timeStamp){
 function select(){
     return new Promise(function(resolve,reject){
 
-        const db = new sqlite.Database('userInfo.sqlite');
         let userArray = new Array();
-    
-        db.serialize( () => {
-            db.each('SELECT * FROM userInfo',(error , row) => {
-                if (error) {
-                    console.log('検索に失敗しました：' + error.message);
-                    return;
-                }
-                userArray.push(row.userId);
-                console.log('登録されているID：' + row.userId);
-                resolve(userArray);
-            });
-        });
-        db.close( (err) => {
-            if (err) {
-                console.log(err.message);                
-            }
+        Post.findAll({
+            attributes:['userId']
+        }).then( (result) => {
+            result.forEach((element) => {
+                userArray.push(element.userId);    
+            })
+            resolve(userArray);
+        }).catch((err) => {
+            console.log('ID一覧取得に失敗しました');
         });
     })
 }
