@@ -9,8 +9,8 @@ const dao = require('./db/dao');
 
 // LINESECRETとTOKEN
 const config = {
-    channelSecret: 'dda96be6327f93bbbcbd6880821fa397',
-    channelAccessToken: 'BYHiPhzvLQBYw/tEMqfHWQyRTSgXMq6hwUVhujkJroYUiDTtvoeLraaEqCDLJdoSpBKNrhBN4vsvqQrYPUwkRMOh6O9SJZsZwDyjnLtcNp4ceWKkviqO2hPnrMUPBuGZLC+2DZ3d42DKXoicx84HzwdB04t89/1O/w1cDnyilFU='
+    channelSecret: process.env.LINE_SECRET,
+    channelAccessToken: process.env.LINE_ACCESS_TOKEN
 };
 
 const client = new line.Client(config);
