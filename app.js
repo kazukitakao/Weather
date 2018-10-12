@@ -23,7 +23,8 @@ app.post('/webhook', line.middleware(config), (req, res) => {
     switch (eventType) {
       // リプライ
       case 'message':
-        line.Client.replyMessage(req.body.events[0].replyToken,{
+        const client = new line.Client(config); 
+        client.replyMessage(req.body.events[0].replyToken,{
           type: 'text',
           text: 'リプライ成功！！'
         });
