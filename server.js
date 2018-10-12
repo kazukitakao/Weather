@@ -1,13 +1,9 @@
 'use strict';
 
-// LINESDK
 const line = require('@line/bot-sdk');
-// XMLパース
 const parseString = require('xml2js').parseString;
-
 const dao = require('./db/dao');
 
-// LINESECRETとTOKEN
 const config = {
     channelSecret: process.env.LINE_SECRET,
     channelAccessToken: process.env.LINE_ACCESS_TOKEN
@@ -40,20 +36,15 @@ function getRSS(url){
     })
 }
 
-// データ取得先のURLを設定する
 const url = "http://www.drk7.jp/weather/xml/13.xml";
 
 getRSS(url).then((result) => {
 
-    console.log('RSS情報:' + result);
     const message = {
         type: 'text',
         text: result
     };
     dao.select().then((result) => {
-
-        console.log('ユーザ一覧:' + result);
-
         client.multicast(result, message)
             .catch((err) => {
                 console.log(err.message);
