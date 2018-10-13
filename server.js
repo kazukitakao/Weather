@@ -43,7 +43,13 @@ function getRSS(url){
                             '雨に負けずに今日も頑張ってね(^^)',
                             '今日も一日楽しんでいこうね(^^)',
                             '楽しいことがありますように(^^)'];
-                        const attentionWord = '今日は雨が降りそうだから傘を忘れないでね！'
+
+                        let attentionWord = '';
+                        if(items[0].period.every(isBelow50)){
+                            attentionWord = '今日は雨が降るかもしれないから折りたたみ傘があると安心だよ！';
+                        }else{
+                            attentionWord = '今日は雨が降りそうだから傘を忘れないでね！';
+                        }
                         // テンプレート文字列は改行がそのまま反映される
                         let templeteString = `${sentenceBegin[Math.floor(Math.random() * sentenceBegin.length)]}\r${attentionWord}
                                           降水確率はこんな感じだよ。\r0〜6時 ${per0to6}%\r6〜12時 ${per6to12}%\r12〜18時 ${per12to18}%\r18〜24時 ${per18to24}%
@@ -108,5 +114,5 @@ function isBelow20(currentValue){
  * @returns
  */
 function isBelow50(currentValue){
-    return 50 >= currentValue;
+    return 50 < currentValue;
 }
