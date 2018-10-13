@@ -43,6 +43,7 @@ function getRSS(url){
                                          '今日も一日楽しんでいこうね(^^)', 
                                          '楽しいことがありますように(^^)'];
                     const word3 = '今日は雨が降りそうだから傘を忘れないでね！'
+                    
                     // テンプレート文字列は改行がそのまま反映される
                     let templeteString = `${sentenceBegin[Math.floor(Math.random() * sentenceBegin.length)]} ${word3} 降水確率はこんな感じだよ。
                                           6〜12時 ${per6to12}%
