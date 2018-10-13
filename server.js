@@ -51,7 +51,7 @@ function getRSS(url){
                                             12〜18時 ${per12to18} \n
                                             18〜24時 ${per18to24} \n
                                             ${sentenceEnd[Math.floor(Math.random() * sentenceEnd.length)]}`;
-
+                    message = templeteString;
                     // items[0].period 00-06時の降水確率で表示させるか判断
                     // 頭と最後に文字を結合
                     // 降水確率の比較方法 時間は配列
