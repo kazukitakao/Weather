@@ -44,9 +44,7 @@ function getRSS(url){
                                          '楽しいことがありますように(^^)'];
                     const word3 = '今日は雨が降りそうだから傘を忘れないでね！'
                     let templeteString = `${sentenceBegin[Math.floor(Math.random() * sentenceBegin.length)]}\n${word3}\n降水確率はこんな感じだよ。\n
-                                          6〜12時 ${per6to12}%\n
-                                          12〜18時 ${per12to18}%\n
-                                          18〜24時 ${per18to24}%\n
+                                          6〜12時 ${per6to12}% 12〜18時 ${per12to18}% 18〜24時 ${per18to24}%\n
                                           ${sentenceEnd[Math.floor(Math.random() * sentenceEnd.length)]}`;
                     message = templeteString;
                     // items[0].period 00-06時の降水確率で表示させるか判断
