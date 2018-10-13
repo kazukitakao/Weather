@@ -85,8 +85,6 @@ getRSS(url).then((result) => {
             .catch((err) => {
                 console.log(err.message);
             });
-    }).then(() => {
-        process.exit();
     });
 }).catch(function onReject(err){
     console.log(err.message);
