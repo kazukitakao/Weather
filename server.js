@@ -25,29 +25,34 @@ function getRSS(url){
                     // 東京都の時間ごとの降水確率を取得している
                     let date = obj.weatherforecast.pref[0].area[3].info[0].$.date;
                     let items = obj.weatherforecast.pref[0].area[3].info[0].rainfallchance;
+                    let per0to6 = items[0].period[0]._;
                     let per6to12 = items[0].period[1]._;
                     let per12to18 = items[0].period[2]._;
                     let per18to24 = items[0].period[3]._;
-
+                    
                     // 表示下限値
                     let minPer = 20;
-                    // 文頭と末尾につく文字を設定
-                    const sentenceBegin = ['いい朝だね！', 
-                                           '今日もよく眠れた？', 
-                                           '二日酔い大丈夫？', 
-                                           '早起きしてえらいね！', 
-                                           'いつもより起きるのちょっと遅いんじゃない？'];
-                    const sentenceEnd = ['気を付けて行ってきてね(^^)', 
-                                         'いい一日を過ごしてね(^^)', 
-                                         '雨に負けずに今日も頑張ってね(^^)', 
-                                         '今日も一日楽しんでいこうね(^^)', 
-                                         '楽しいことがありますように(^^)'];
-                    const word3 = '今日は雨が降りそうだから傘を忘れないでね！'
-                    // テンプレート文字列は改行がそのまま反映される
-                    let templeteString = `${sentenceBegin[Math.floor(Math.random() * sentenceBegin.length)]}\r${word3}
-                                          降水確率はこんな感じだよ。\r6〜12時 ${per6to12}%\r12〜18時${per12to18}%\r18〜24時 ${per18to24}%
+                    if(items[0].period.every(isBelow20)){
+                        // 文頭と末尾につく文字を設定
+                        const sentenceBegin = ['いい朝だね！',
+                            '今日もよく眠れた？',
+                            '二日酔い大丈夫？',
+                            '早起きしてえらいね！',
+                            'いつもより起きるのちょっと遅いんじゃない？'];
+                        const sentenceEnd = ['気を付けて行ってきてね(^^)',
+                            'いい一日を過ごしてね(^^)',
+                            '雨に負けずに今日も頑張ってね(^^)',
+                            '今日も一日楽しんでいこうね(^^)',
+                            '楽しいことがありますように(^^)'];
+                        const attentionWord = '今日は雨が降りそうだから傘を忘れないでね！'
+                        // テンプレート文字列は改行がそのまま反映される
+                        let templeteString = `${sentenceBegin[Math.floor(Math.random() * sentenceBegin.length)]}\r${word3}
+                                          降水確率はこんな感じだよ。\r0〜6時 ${per0to6}%\r6〜12時 ${per6to12}%\r12〜18時 ${per12to18}%\r18〜24時 ${per18to24}%
                                           ${sentenceEnd[Math.floor(Math.random() * sentenceEnd.length)]}`;
-                    message = templeteString;
+                        message = templeteString;
+                    }else{
+                        message = '';
+                    }
                     // items[0].period 00-06時の降水確率で表示させるか判断
                     // 頭と最後に文字を結合
                     // 降水確率の比較方法 時間は配列
@@ -95,7 +100,7 @@ getRSS(url).then((result) => {
  * @returns
  */
 function isBelow20(currentValue){
-    return 20 >= currentValue;
+    return 20 <= currentValue;
 }
 
 
