@@ -33,26 +33,26 @@ function getRSS(url){
                         message = '';
                     }else{
                         // 文頭と末尾につく文字を設定
-                        const sentenceBegin = ['いい朝だね！',
-                            '今日もよく眠れた？',
-                            '二日酔い大丈夫？',
-                            '早起きしてえらいね！',
-                            'いつもより起きるのちょっと遅いんじゃない？'];
-                        const sentenceEnd = ['気を付けて行ってきてね(^^)',
-                            'いい一日を過ごしてね(^^)',
-                            '雨に負けずに今日も頑張ってね(^^)',
-                            '今日も一日楽しんでいこうね(^^)',
-                            '楽しいことがありますように(^^)'];
+                        const sentenceBegin = ['よい朝じゃな！',
+                            '昨日はよく眠れたかの？',
+                            '二日酔いしとらんかの？',
+                            '早起きとはえらいの！',
+                            'ちと寝起きが悪いかの？'];
+                        const sentenceEnd = ['気を付けて行ってくるのじゃ(^^)',
+                            'いい一日を過ごすのじゃぞ(^^)',
+                            '雨に負けずに今日も頑張るのじゃ(^^)',
+                            '今日も一日楽しむのじゃ(^^)',
+                            '楽しいことがあるといいの(^^)'];
 
                         let attentionWord = '';
                         if(items[0].period.every(isBelow50)){
-                            attentionWord = '今日は雨が降るかもしれないから折りたたみ傘があると安心だよ！';
+                            attentionWord = '今日は雨が降るかもしれないから折りたたみ傘があると安心じゃ！';
                         }else{
-                            attentionWord = '今日は雨が降りそうだから傘を忘れないでね！';
+                            attentionWord = '今日は雨が降りそうだから傘を忘れるでないぞ！';
                         }
                         // テンプレート文字列は改行がそのまま反映される
                         let templeteString = `${sentenceBegin[Math.floor(Math.random() * sentenceBegin.length)]}\r${attentionWord}
-                                          降水確率はこんな感じだよ。\r0〜6時 ${per0to6}%\r6〜12時 ${per6to12}%\r12〜18時 ${per12to18}%\r18〜24時 ${per18to24}%
+                                          降水確率はこんな感じじゃ。\r0〜6時 ${per0to6}%\r6〜12時 ${per6to12}%\r12〜18時 ${per12to18}%\r18〜24時 ${per18to24}%
                                           ${sentenceEnd[Math.floor(Math.random() * sentenceEnd.length)]}`;
                         message = templeteString;
                     }
