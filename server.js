@@ -97,7 +97,7 @@ getRSS(url).then((result) => {
  * @returns
  */
 function isBelow20(currentValue){
-    return 20 >= currentValue;
+    return 20 < currentValue;
 }
 
 
