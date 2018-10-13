@@ -47,8 +47,7 @@ function getRSS(url){
                     let templeteString = `${sentenceBegin[Math.floor(Math.random() * sentenceBegin.length)]} ${word3} 降水確率はこんな感じだよ。
                                           6〜12時 ${per6to12}%
                                           12〜18時 ${per12to18}%
-                                          18〜24時 ${per18to24}%
-                                          ${sentenceEnd[Math.floor(Math.random() * sentenceEnd.length)]}`;
+                                          18〜24時 ${per18to24}%${sentenceEnd[Math.floor(Math.random() * sentenceEnd.length)]}`;
                     message = templeteString;
                     // items[0].period 00-06時の降水確率で表示させるか判断
                     // 頭と最後に文字を結合
