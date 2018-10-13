@@ -86,6 +86,7 @@ getRSS(url).then((result) => {
                 console.log(err.message);
             });
     });
+    process.exit();
 }).catch(function onReject(err){
     console.log(err.message);
 });
@@ -111,5 +112,3 @@ function isBelow20(currentValue){
 function isBelow50(currentValue){
     return 50 >= currentValue;
 }
-
-process.exit();
