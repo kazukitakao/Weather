@@ -30,6 +30,8 @@ function getRSS(url){
                     let per18to24 = items[0].period[3]._;
                     
                     if(items[0].period.every(isBelow20)){
+                        message = '';
+                    }else{
                         // 文頭と末尾につく文字を設定
                         const sentenceBegin = ['いい朝だね！',
                             '今日もよく眠れた？',
@@ -47,8 +49,6 @@ function getRSS(url){
                                           降水確率はこんな感じだよ。\r0〜6時 ${per0to6}%\r6〜12時 ${per6to12}%\r12〜18時 ${per12to18}%\r18〜24時 ${per18to24}%
                                           ${sentenceEnd[Math.floor(Math.random() * sentenceEnd.length)]}`;
                         message = templeteString;
-                    }else{
-                        message = '';
                     }
                     // items[0].period 00-06時の降水確率で表示させるか判断
                     // 頭と最後に文字を結合
