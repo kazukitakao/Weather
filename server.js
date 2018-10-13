@@ -44,13 +44,13 @@ function getRSS(url){
                                          '今日も一日楽しんでいこうね(^^)', 
                                          '楽しいことがありますように(^^)'];
                     const word3 = '今日は雨が降りそうだから傘を忘れないでね！'
-                    let templeteString = `${sentenceBegin[floor(random() * word1.length)]} \n
+                    let templeteString = `${sentenceBegin[Math.floor(Math.random() * word1.length)]} \n
                                             ${word3} \n
                                             降水確率はこんな感じだよ。\n
                                             6〜12時 ${per6to12} \n
                                             12〜18時 ${per12to18} \n
                                             18〜24時 ${per18to24} \n
-                                            ${sentenceEnd[floor(random() * word1.length)]}`;
+                                            ${sentenceEnd[Math.floor(Math.random() * word1.length)]}`;
 
                     // items[0].period 00-06時の降水確率で表示させるか判断
                     // 頭と最後に文字を結合
@@ -112,3 +112,5 @@ function isBelow20(currentValue){
 function isBelow50(currentValue){
     return 50 >= currentValue;
 }
+
+process.exit();
