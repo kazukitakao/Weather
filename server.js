@@ -23,15 +23,12 @@ function getRSS(url){
                     if (err) { console.log(err); return; }
                     
                     // 東京都の時間ごとの降水確率を取得している
-                    let date = obj.weatherforecast.pref[0].area[3].info[0].$.date;
                     let items = obj.weatherforecast.pref[0].area[3].info[0].rainfallchance;
                     let per0to6 = items[0].period[0]._;
                     let per6to12 = items[0].period[1]._;
                     let per12to18 = items[0].period[2]._;
                     let per18to24 = items[0].period[3]._;
                     
-                    // 表示下限値
-                    let minPer = 20;
                     if(items[0].period.every(isBelow20)){
                         // 文頭と末尾につく文字を設定
                         const sentenceBegin = ['いい朝だね！',
@@ -100,7 +97,7 @@ getRSS(url).then((result) => {
  * @returns
  */
 function isBelow20(currentValue){
-    return 20 < currentValue;
+    return 20 >= currentValue;
 }
 
 
