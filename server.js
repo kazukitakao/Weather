@@ -22,13 +22,50 @@ function getRSS(url){
 
                 parseString(body, function (err, obj) {
                     if (err) { console.log(err); return; }
-            
+                    
+                    // 東京都の時間ごとの降水確率を取得している
                     let date = obj.weatherforecast.pref[0].area[3].info[0].$.date;
                     let items = obj.weatherforecast.pref[0].area[3].info[0].rainfallchance;
-                    message = '今日の日付：' + date + '\n';
-                    items[0].period.forEach(period => {
-                        message += period.$.hour + '時：' + period._ + '% \n'
-                    });
+                    let per6to12 = items[0].period[1];
+                    let per12to18 = items[0].period[2];
+                    let per18to24 = items[0].period[3];
+
+                    // 表示下限値
+                    let minPer = 20;
+                    // 文頭と末尾につく文字を設定
+                    const sentenceBegin = ['いい朝だね！', 
+                                           '今日もよく眠れた？', 
+                                           '二日酔い大丈夫？', 
+                                           '早起きしてえらいね！', 
+                                           'いつもより起きるのちょっと遅いんじゃない？'];
+                    const sentenceEnd = ['気を付けて行ってきてね(^^)', 
+                                         'いい一日を過ごしてね(^^)', 
+                                         '雨に負けずに今日も頑張ってね(^^)', 
+                                         '今日も一日楽しんでいこうね(^^)', 
+                                         '楽しいことがありますように(^^)'];
+                    const word3 = '今日は雨が降りそうだから傘を忘れないでね！'
+                    let templeteString = `${sentenceBegin[floor(random() * word1.length)]} \n
+                                            ${word3} \n
+                                            降水確率はこんな感じだよ。\n
+                                            6〜12時 ${per6to12} \n
+                                            12〜18時 ${per12to18} \n
+                                            18〜24時 ${per18to24} \n
+                                            ${sentenceEnd[floor(random() * word1.length)]}`;
+
+                    // items[0].period 00-06時の降水確率で表示させるか判断
+                    // 頭と最後に文字を結合
+                    // 降水確率の比較方法 時間は配列
+                    // 配列の中の値が範囲内かどうか判定
+                    // 範囲 0〜19以下 20〜49以下 50〜 
+                    // if(items[0].period.every(isBelow20)){
+
+                    // }else{
+                    //     // 快晴のパターン
+                    // }
+                    // message = '今日の日付：' + date + '\n';
+                    // items[0].period.forEach(period => {
+                    //     message += period.$.hour + '時：' + period._ + '% \n'
+                    // });
                 });
                resolve(message);
             }
@@ -53,3 +90,25 @@ getRSS(url).then((result) => {
 }).catch(function onReject(err){
     console.log(err.message);
 });
+
+
+/**
+ *
+ *
+ * @param {*} currentValue
+ * @returns
+ */
+function isBelow20(currentValue){
+    return 20 >= currentValue;
+}
+
+
+/**
+ *
+ *
+ * @param {*} currentValue
+ * @returns
+ */
+function isBelow50(currentValue){
+    return 50 >= currentValue;
+}
