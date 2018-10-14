@@ -106,7 +106,6 @@ getRSS(url).then((result) => {
                 console.log(err.message);
             });
     });
-    process.exit();
 }).catch(function onReject(err){
     console.log(err.message);
 });
