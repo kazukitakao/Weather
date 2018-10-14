@@ -1,8 +1,14 @@
 'use strict'
 
-// herokuにデプロイするためにpostgresqlに変更
 const Post = require('./post');
 
+
+/**
+ * グループ申請のあったユーザIDを登録
+ *
+ * @param {*} userId 申請されたユーザID
+ * @param {*} timeStamp 申請時間
+ */
 function userInsert(userId,timeStamp){
 
     Post.create({
@@ -15,6 +21,12 @@ function userInsert(userId,timeStamp){
     })
 }
 
+
+/**
+ * DBに登録されているユーザID一覧を取得
+ *
+ * @returns ユーザID一覧を格納した配列
+ */
 function select(){
     return new Promise(function(resolve,reject){
 
@@ -32,6 +44,12 @@ function select(){
     })
 }
 
+
+/**
+ * グループ離脱申請のあったユーザIDを削除
+ *
+ * @param {*} userId グループ離脱申請のあったユーザID
+ */
 function userDelete(userId){
 
     const filter = {

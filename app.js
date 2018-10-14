@@ -10,9 +10,6 @@ const config = {
 
 const app = express();
 
-// Webhookイベントオブジェクトの内容で処理を分ける
-// 友人登録された時、DBにIDを登録する処理
-// 友人解除された時、DBからIDを削除する処理
 app.post('/webhook', line.middleware(config), (req, res) => {
 
     let eventType = req.body.events[0].type

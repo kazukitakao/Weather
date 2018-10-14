@@ -11,6 +11,13 @@ const config = {
 
 const client = new line.Client(config);
 
+
+/**
+ * 天気予報のRSS情報を取得する
+ *
+ * @param {*} url RSS情報を配信しているサイトURL
+ * @returns
+ */
 function getRSS(url){
     return new Promise((resolve,reject) => {
         let request = require('request');
@@ -29,6 +36,7 @@ function getRSS(url){
                     let per12to18 = items[0].period[2]._;
                     let per18to24 = items[0].period[3]._;
                     
+                    // 全時間で降水確率が20%未満ならメッセージ送信しない
                     if(items[0].period.every(isBelow20)){
                         message = '';
                     }else{
@@ -56,25 +64,32 @@ function getRSS(url){
                                           ${sentenceEnd[Math.floor(Math.random() * sentenceEnd.length)]}`;
                         message = templeteString;
                     }
-                    // items[0].period 00-06時の降水確率で表示させるか判断
-                    // 頭と最後に文字を結合
-                    // 降水確率の比較方法 時間は配列
-                    // 配列の中の値が範囲内かどうか判定
-                    // 範囲 0〜19以下 20〜49以下 50〜 
-                    // if(items[0].period.every(isBelow20)){
-
-                    // }else{
-                    //     // 快晴のパターン
-                    // }
-                    // message = '今日の日付：' + date + '\n';
-                    // items[0].period.forEach(period => {
-                    //     message += period.$.hour + '時：' + period._ + '% \n'
-                    // });
                 });
                resolve(message);
             }
         });
     })
+}
+
+/**
+ * 配列の要素全ての値が21以上か判定
+ *
+ * @param {*} currentValue 配列の要素の値
+ * @returns 20未満の場合、false。それ以外はtrue
+ */
+function isBelow20(currentValue){
+    return 20 < currentValue;
+}
+
+
+/**
+ * 配列の要素全ての値が51以上か判定
+ *
+ * @param {*} currentValue 配列の要素の値
+ * @returns 50未満の場合、false。それ以外はtrue
+ */
+function isBelow50(currentValue){
+    return 50 < currentValue;
 }
 
 const url = "http://www.drk7.jp/weather/xml/13.xml";
@@ -94,25 +109,3 @@ getRSS(url).then((result) => {
 }).catch(function onReject(err){
     console.log(err.message);
 });
-
-
-/**
- *
- *
- * @param {*} currentValue
- * @returns
- */
-function isBelow20(currentValue){
-    return 20 < currentValue;
-}
-
-
-/**
- *
- *
- * @param {*} currentValue
- * @returns
- */
-function isBelow50(currentValue){
-    return 50 < currentValue;
-}
